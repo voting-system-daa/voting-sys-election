@@ -3,7 +3,7 @@ package voting.sys.election.rest.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import voting.sys.election.domain.entity.Users;
+import voting.sys.election.application.dto.response.Users;
 
 import java.util.Collection;
 import java.util.List;

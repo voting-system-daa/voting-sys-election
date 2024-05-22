@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import voting.sys.election.domain.entity.Users;
+import voting.sys.election.application.dto.response.Users;
 
 import java.util.Arrays;
 import java.util.HashSet;

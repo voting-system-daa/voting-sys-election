@@ -1,4 +1,4 @@
-package voting.sys.election.domain.entity;
+package voting.sys.election.application.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,20 +8,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @EqualsAndHashCode
 @ToString
-@Builder
-public class Users {
+public class ElectionItemRequestDto {
 
     private String idnp;
 
-    private Set<String> userRoles = new HashSet<>();
+    private Long electionId;
 
 }
