@@ -1,0 +1,84 @@
+---
+# Define a Service to expose database to other service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-election
+  namespace: monitoring
+  labels:
+    app: postgres-election
+    tier: database
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-election
+    tier: database
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim-election
+  namespace: monitoring
+  labels:
+    app: postgres-election
+    tier: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-election
+  namespace: monitoring
+  labels:
+    app: postgres-election
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: postgres-election
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres-election
+        tier: database
+    spec:
+      containers:
+        - name: postgres-election
+          image: postgres
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials-election
+                  key: postgres_user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials-election
+                  key: postgres_password
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-configmap-election
+                  key: name
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              subPath: postgres-data  # Specify a subdirectory
+              name: postgres-persistance-storage-election
+      volumes:
+        - name: postgres-persistance-storage-election
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim-election

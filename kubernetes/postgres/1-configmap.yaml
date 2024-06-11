@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-configmap-election
+  namespace: monitoring
+data:
+  host: "postgres-election"
+  name: "voting-sys-election-db"
