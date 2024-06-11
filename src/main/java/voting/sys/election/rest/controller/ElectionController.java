@@ -37,7 +37,7 @@ public class ElectionController {
         return new ResponseEntity<>(electionFacade.saveElectionVote(electionItemRequestDto, bindingResult), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('User')")
+    @PreAuthorize("hasAnyAuthority('Admin', 'User')")
     @GetMapping("/checkVote/{idnp}")
     public ResponseEntity<Boolean> saveElectionResponse(@PathVariable("idnp") String idnp) {
         return new ResponseEntity<>(electionFacade.checkVotedByIdnp(idnp), HttpStatus.OK);
